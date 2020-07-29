@@ -136,8 +136,12 @@ function updateSubdomain(subdomain, ip_address, statusChanged){
   });
 }
 
-function deleteSubdomain(){
-  
+function deleteSubdomain(subdomain){
+  const {domain, sub} = extractDomain(subdomain);
+
+  getIdOfDomain(domain, function(zoneId){
+    
+  })
 }
 
 /**
@@ -160,9 +164,7 @@ function getSubdomainsOf(domain, ip_address, callback = null){
             "IP": value.ResourceRecords[0].Value
           })
         });
-        processedData.filter((value) => {
-          value.IP = ip_address
-        })
+        processedData = processedData.filter(value => value.IP == ip_address);
         console.log(processedData);
       }
     })
