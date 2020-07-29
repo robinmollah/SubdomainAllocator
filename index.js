@@ -150,7 +150,7 @@ function deleteSubdomain(subdomain){
  * @param {string} domain
  * @param {string} callback optional | calls this function after retrieval
  */
-function getSubdomainsOf(domain, ip_address, callback = null){
+function getSubdomainsOf(domain, ip_address = null, callback = null){
   getIdOfDomain(domain, function(zoneId){
     let params = ParamsProvider.baseParams(zoneId);
 
@@ -164,8 +164,14 @@ function getSubdomainsOf(domain, ip_address, callback = null){
             "IP": value.ResourceRecords[0].Value
           })
         });
-        processedData = processedData.filter(value => value.IP == ip_address);
-        console.log(processedData);
+        if(ip_address){
+          processedData = processedData.filter(value => value.IP == ip_address);
+        }
+        if(callback){
+          callback(processedData);
+        } else {
+          console.log(processedData);
+        }
       }
     })
   })
