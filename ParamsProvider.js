@@ -1,5 +1,9 @@
 const { Route53 } = require("aws-sdk");
 
+/**
+ * 
+ * @param {string} id Hosted Zone ID of a domain
+ */
 function hostedZoneParam(id){
     return {
         HostedZoneId: id
@@ -28,7 +32,7 @@ function CreateSubdomain(zoneId, subdomain, ip_address){
 
 
 /**
- * @param {*} zoneId HostedZoneId
+ * @param {string} zoneId HostedZoneId of domain
  */
 function BasicChangeBatch(zoneId){
     return {
@@ -40,6 +44,12 @@ function BasicChangeBatch(zoneId){
     }
 }
 
+/**
+ * 
+ * @param {string} zoneId 
+ * @param {string} subdomain 
+ * @param {string} ip_address 
+ */
 function UpdateSubdomain(zoneId, subdomain, ip_address){
     let params = BasicChangeBatch(zoneId);
     let changeObject = getActionChange("UPSERT");
