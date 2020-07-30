@@ -52,7 +52,7 @@ function getIdOfDomain(domain, callback){
  * @param {string} ip_address 
  * @param {function} statusChanged is called with 'status` property holding PENDING | INSYNC
  */
-function createSubdomain(subdomain, ip_address, statusChanged){
+function createSubdomain(subdomain, ip_address, callback = console.log){
   const { domain, sub } = extractDomain(subdomain);
 
   getIdOfDomain(domain, function(zoneId){
@@ -60,15 +60,14 @@ function createSubdomain(subdomain, ip_address, statusChanged){
 
     route53.changeResourceRecordSets(params, function(err, data){
       if(err){
-        console.log(err, err.stack);
+        callback(null, err.message);
       } else {
-        console.log(data);
+        callback(data);
+        route53.waitFor('resourceRecordSetsChanged', {"Id": data.ChangeInfo.Id}, function(err, data){
+          callback(data, err);
+        });
       }
     });
-
-    if(statusChanged){
-      route53.waitFor('resourceRecordSetsChanged', params, statusChanged);
-    }
   });
 }
 
