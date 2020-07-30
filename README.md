@@ -34,7 +34,7 @@ Run the following command to download this code base
 ### Example
 
 ```javascript
-const subdomainer = require('./SubdomainAllocator);
+const subdomainer = require('./SubdomainAllocator');
 
 subdomainer.createSubdomain('johndoe.properbd.net', '10.0.123.12');
 ```
